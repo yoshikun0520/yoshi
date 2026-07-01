@@ -11,8 +11,8 @@ return cache.addAll([
 "./",
 "./index.html",
 "./style.css",
+"./knowledge.js" 
 "./script.js",
-"./knowledge.js"
 
 ]);
 
