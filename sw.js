@@ -11,8 +11,8 @@ return cache.addAll([
 "./",
 "./index.html",
 "./style.css",
-"./knowledge.js" 
 "./script.js",
+"./knowledge.js"
 
 ]);
 
@@ -29,6 +29,12 @@ e.respondWith(
 caches.match(e.request).then(r=>{
 
 return r || fetch(e.request);
+
+})
+
+);
+
+});
 
 })
 
