@@ -1,7 +1,11 @@
 "use strict";
 
 /* ========= 要素取得 ========= */
+const hands=["グー","チョキ","パー"];
 
+let answer=Math.floor(Math.random()*10)+1;
+
+const slot=["🍒","🍋","🍇","⭐","💎","7️⃣"];
 const chat = document.getElementById("chat");
 const input = document.getElementById("input");
 const sendBtn = document.getElementById("send");
@@ -30,7 +34,88 @@ window.addEventListener("load", () => {
     }
 
 });
+function playJanken(text){
 
+    const user=text.replace("じゃんけん","").trim();
+
+    if(!hands.includes(user)) return null;
+
+    const bot=hands[Math.floor(Math.random()*3)];
+
+    let result="";
+
+    if(user===bot){
+
+        result="あいこ！";
+
+    }else if(
+        (user==="グー"&&bot==="チョキ")||
+        (user==="チョキ"&&bot==="パー")||
+        (user==="パー"&&bot==="グー")
+    ){
+
+        result="あなたの勝ち！🎉";
+
+    }else{
+
+        result="私の勝ち😎";
+
+    }
+
+    return `✊ あなた:${user}
+🤖 私:${bot}
+
+${result}`;
+
+}
+function playNumber(text){
+
+    if(!text.startsWith("数字")) return null;
+
+    const n=parseInt(text.replace("数字",""));
+
+    if(isNaN(n))
+        return "数字1〜10で入力してください";
+
+    if(n===answer){
+
+        answer=Math.floor(Math.random()*10)+1;
+
+        return "🎉 正解！！";
+
+    }
+
+    if(n<answer)
+        return "もっと大きい数字！";
+
+    return "もっと小さい数字！";
+
+}
+function playSlot(text){
+
+    if(text!=="スロット") return null;
+
+    const a=slot[Math.floor(Math.random()*slot.length)];
+    const b=slot[Math.floor(Math.random()*slot.length)];
+    const c=slot[Math.floor(Math.random()*slot.length)];
+
+    let result="残念😅";
+
+    if(a===b&&b===c){
+
+        result="🎉 JACKPOT！！";
+
+    }else if(a===b||b===c||a===c){
+
+        result="😊 2つ揃った！";
+
+    }
+
+    return `${a} ${b} ${c}
+
+${result}`;
+
+}
 /* ========= メッセージ追加 ========= */
 
 function addUser(text){
@@ -105,14 +190,24 @@ function getReply(text){
 
     }
 
-　　
+　　const game1=playJanken(text);
+
+if(game1) return game1;
+
+const game2=playNumber(text);
+
+if(game2) return game2;
+
+const game3=playSlot(text);
+
+if(game3) return game3;
     const random = [
 
         "なるほど！",
 
-        "マジウケんだけど！",
+        "面白いな！",
 
-        "もっと教えろ！",
+        "もっと教えてくれ！",
 
         "そうなんだ！",
 
@@ -122,7 +217,7 @@ function getReply(text){
 
         "グーで殴られたいのか？",
 
-        "この猿野郎がぁぁぁあ！！！",
+        "おっぱい好き！",
 
          "はいよ～",
 
@@ -131,18 +226,6 @@ function getReply(text){
         "ダサっ",
 
         "いくらくれんの？",
-        
-        "その話長い？",
-
-       "何ガタくれてんだよ！",
-
-       "頭カチ割られてぇのか？",
-
-       "懲役行って来な！",
-
-       "バスケットがしたいです！！www",
-
-       "で？",
 
 　　　 "グラム4万ね！",
 
@@ -159,6 +242,7 @@ function getReply(text){
     return random[Math.floor(Math.random()*random.length)];
 
 }
+
 
 
 /* ========= タイピング ========= */
