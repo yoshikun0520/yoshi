@@ -184,8 +184,8 @@ autocomplete="off"
 <button id="send">
 
 送信
-
 </button>
+
 
 </footer>
 
@@ -234,8 +234,7 @@ autocomplete="off"
 </template>
 
 <!-- JS -->
-
-<script src="knowledge.js"></script>
+<script src="knowledge.js" defer></script><script src="script.js"></script>
 
 <script src="storage.js"></script>
 
@@ -243,7 +242,6 @@ autocomplete="off"
 
 <script src="speech.js"></script>
 
-<script src="script.js"></script>
 
 <script>
 if("serviceWorker" in navigator){
@@ -254,7 +252,7 @@ navigator.serviceWorker.register("sw.js");
 </script>
 
 <script>
-text: systemPrompt + "\n\n" + text
+const prompt = systemPrompt + "\n\n" + text;
 window.addEventListener("load",()=>{
 
  const saved =
@@ -270,12 +268,9 @@ window.addEventListener("load",()=>{
  }
 
 });
-Gemini Vision
-GPT-5 Vision
-model:"gemini-2.5-pro"
-https://generativelanguage.googleapis.com
-systemPrompt=
-"猫好きでフレンドリーに話す"
+const MODEL = "gemini-2.5-pro";
+const API_URL = "https://generativelanguage.googleapis.com";
+
 const characters = {
 
   yoshikun: `
@@ -299,6 +294,65 @@ const characters = {
 少し素っ気ないが優しい性格です。
 `
 };
+
+const emotions = {
+  happy: [
+    "😆 それ最高じゃん！",
+    "🎉 めっちゃ嬉しい！",
+    "😊 いいね！儲け話好き！",
+    "✨ それ聞いてテンション爆上げ！",
+    "🥳 ナイス！"
+  ],
+
+  sad: [
+    "🥺 それはつらかったね…って言ってほしかった？",
+    "😢 努力が足りないんじゃん？さっさと諦めれば？",
+    "💙 クソみたいな役にも立たない話をしてくれてありがとう。",
+    "😔 その運の悪さマジでウケるんですけど…",
+    "🌧️ 少しでも力を貸してほしいなんてまさか考えてないよな…まさかな。"
+  ],
+
+  angry: [
+    "😠 それはムカつくな！殺るか？",
+    "💢 それは納得できないな。",
+    "😤 その気持ちはわかる。",
+    "⚡ もうケツの話だね。",
+    "👊 落ち着いて一緒にヤツを消す方法を考えよう。"
+  ],
+
+  surprised: [
+    "😳 えっ、本当に！？",
+    "🤯 それは予想外！",
+    "😲 まさかの展開だな！",
+    "👀 びっくりした！",
+    "✨ 面白いね！"
+  ],
+
+  normal: [
+    "😊 ふ～ん。",
+    "🐱 あっそ。",
+    "✨ もっとその情報聞かせて！",
+    "👍 いいんじゃね。",
+    "😄 続きが気になる！"
+  ]
+};
+
+function detectEmotion(text){
+
+  if(/嬉しい|楽しい|最高|好き|成功|ありがとう/.test(text))
+    return "happy";
+
+  if(/悲しい|つらい|泣|寂しい|失敗/.test(text))
+    return "sad";
+
+  if(/ムカつく|怒|最悪|嫌い|ふざけ/.test(text))
+    return "angry";
+
+  if(/え|マジ|本当|びっくり|すご/.test(text))
+    return "surprised";
+
+  return "normal";
+}
 
 let systemPrompt = characters.yoshikun;
 
@@ -338,10 +392,10 @@ function changeCharacter(){
 function sendMessage(){
 
     const input =
-        document.getElementById("userInput");
+        document.getElementById("input");
 
     const chatBox =
-        document.getElementById("chatBox");
+        document.getElementById("chat");
 
     const text = input.value.trim();
 
@@ -357,27 +411,29 @@ function sendMessage(){
 
     chatBox.appendChild(userMsg);
 
-    setTimeout(()=>{
+    const emotion = detectEmotion(text);
 
-        const botMsg =
-            document.createElement("div");
+const list = emotions[emotion];
 
-        botMsg.className =
-            "message bot";
+const reply = list[Math.floor(Math.random()*list.length)];
 
-        botMsg.innerHTML =
-            "✨「" + text +
-            "」あ？テメー喧嘩売ってんのか？<br>随分となめた質問をしてくれんじゃねぇ～か！！🌸";
-
-　　　　　　"✨「" + text +
-            "」マジで言ってんのか？<br>ふざけてんのか？🌸";
+const botMsg = document.createElement("div");
+botMsg.className = "message bot";
+botMsg.innerHTML =
+"🐱 " + reply +
+"<br>✨「" + text +
+"」マジで言ってんのか？🌸";<br>ふざけてんのか？🌸";
 
         chatBox.appendChild(botMsg);
 
         chatBox.scrollTop =
             chatBox.scrollHeight;
 
-    },600);
+    setTimeout(() => {
+
+   ...
+
+},600);
 
     input.value="";
 
@@ -386,8 +442,15 @@ function sendMessage(){
 }
 </script>
 
+document.getElementById("send")
+    .addEventListener("click", sendMessage);
+
+
+
 
 </body>
 
+
+</html>
 
 </html>
