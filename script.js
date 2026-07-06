@@ -2,22 +2,16 @@
 
 /* ========= 要素取得 ========= */
 const hands=["グー","チョキ","パー"];
-
 let answer=Math.floor(Math.random()*10)+1;
-
 const slot=["🍒","🍋","🍇","⭐","💎","7️⃣"];
 const chat = document.getElementById("chat");
 const input = document.getElementById("input");
 const sendBtn = document.getElementById("send");
-
 const darkBtn = document.getElementById("darkBtn");
 const menuBtn = document.getElementById("menuBtn");
 const menu = document.getElementById("menu");
-
 const typing = document.getElementById("typing");
-
 const quickArea = document.getElementById("quickArea");
-
 const userTemplate = document.getElementById("userTemplate");
 const botTemplate = document.getElementById("botTemplate");
 
