@@ -73,13 +73,13 @@ content="width=device-width, initial-scale=1.0">
 
 <div class="right">
 
-<button id="darkBtn">
+<button id="darkBtn"type="button">
 
 🌙
 
 </button>
 
-<button id="menuBtn">
+<button id="menuBtn"type="button">
 
 ☰
 
@@ -93,31 +93,31 @@ content="width=device-width, initial-scale=1.0">
 
 <nav id="menu">
 
-<button id="clearHistory">
+<button id="clearHistory"type="button">
 
 🗑 証拠隠滅
 
 </button>
 
-<button id="exportHistory">
+<button id="exportHistory"type="button">
 
 💾 履歴保存
 
 </button>
 
-<button id="importHistory">
+<button id="importHistory"type="button">
 
 📂 履歴読込
 
 </button>
 
-<button id="speechBtn">
+<button id="speechBtn"type="button">
 
 🔊 読み上げ
 
 </button>
 
-<button id="voiceBtn">
+<button id="voiceBtn"type="button">
 
 🎤 音声入力
 
@@ -127,7 +127,9 @@ content="width=device-width, initial-scale=1.0">
 
 <!-- チャット -->
 
-<main id="chat">
+<main
+    id="chat"
+    aria-live="polite">
 
 </main>
 
@@ -166,7 +168,12 @@ content="width=device-width, initial-scale=1.0">
 </div>
 
 <!-- 入力欄 -->
-
+<input
+    id="input"
+    type="text"
+    autocomplete="off"
+    placeholder="メッセージを入力"
+    enterkeyhint="send">
 <footer>
 
 <input
@@ -181,7 +188,7 @@ autocomplete="off"
 
 >
 
-<button id="send">
+<button id="send"type="button">
 
 送信
 </button>
@@ -238,11 +245,6 @@ autocomplete="off"
 
 <script src="storage.js"></script>
 
-<script src="effects.js"></script>
-
-<script src="speech.js"></script>
-
-
 <script>
 if("serviceWorker" in navigator){
 
@@ -250,205 +252,5 @@ navigator.serviceWorker.register("sw.js");
 
 }
 </script>
-
-<script>
-const prompt = systemPrompt + "\n\n" + text;
-window.addEventListener("load",()=>{
-
- const saved =
-   localStorage.getItem("character");
-
- if(saved){
-
-   document.getElementById(
-     "characterSelect"
-   ).value = saved;
-
-   changeCharacter();
- }
-
-});
-const MODEL = "gemini-2.5-pro";
-const API_URL = "https://generativelanguage.googleapis.com";
-
-const characters = {
-
-  yoshikun: `
-あなたは「よしくんGPT」です。
-猫好きでフレンドリーに話します。
-親しみやすく会話してください。
-`,
-
-  teacher: `
-あなたは教師です。
-わかりやすく丁寧に解説してください。
-`,
-
-  maid: `
-あなたはメイドです。
-礼儀正しく丁寧な口調で話してください。
-`,
-
-  tsundere: `
-あなたはツンデレキャラクターです。
-少し素っ気ないが優しい性格です。
-`
-};
-
-const emotions = {
-  happy: [
-    "😆 それ最高じゃん！",
-    "🎉 めっちゃ嬉しい！",
-    "😊 いいね！儲け話好き！",
-    "✨ それ聞いてテンション爆上げ！",
-    "🥳 ナイス！"
-  ],
-
-  sad: [
-    "🥺 それはつらかったね…って言ってほしかった？",
-    "😢 努力が足りないんじゃん？さっさと諦めれば？",
-    "💙 クソみたいな役にも立たない話をしてくれてありがとう。",
-    "😔 その運の悪さマジでウケるんですけど…",
-    "🌧️ 少しでも力を貸してほしいなんてまさか考えてないよな…まさかな。"
-  ],
-
-  angry: [
-    "😠 それはムカつくな！殺るか？",
-    "💢 それは納得できないな。",
-    "😤 その気持ちはわかる。",
-    "⚡ もうケツの話だね。",
-    "👊 落ち着いて一緒にヤツを消す方法を考えよう。"
-  ],
-
-  surprised: [
-    "😳 えっ、本当に！？",
-    "🤯 それは予想外！",
-    "😲 まさかの展開だな！",
-    "👀 びっくりした！",
-    "✨ 面白いね！"
-  ],
-
-  normal: [
-    "😊 ふ～ん。",
-    "🐱 あっそ。",
-    "✨ もっとその情報聞かせて！",
-    "👍 いいんじゃね。",
-    "😄 続きが気になる！"
-  ]
-};
-
-function detectEmotion(text){
-
-  if(/嬉しい|楽しい|最高|好き|成功|ありがとう/.test(text))
-    return "happy";
-
-  if(/悲しい|つらい|泣|寂しい|失敗/.test(text))
-    return "sad";
-
-  if(/ムカつく|怒|最悪|嫌い|ふざけ/.test(text))
-    return "angry";
-
-  if(/え|マジ|本当|びっくり|すご/.test(text))
-    return "surprised";
-
-  return "normal";
-}
-
-let systemPrompt = characters.yoshikun;
-
-function changeCharacter(){
-
-  const select =
-    document.getElementById("characterSelect");
-
-  const custom =
-    document.getElementById("customPrompt");
-
-  if(select.value==="custom"){
-
-    custom.style.display="block";
-
-    systemPrompt =
-      custom.value ||
-      "親しみやすいAIとして会話してください";
-
-  }else{
-
-    custom.style.display="none";
-
-    systemPrompt =
-      characters[select.value];
-
-  }
-
-  localStorage.setItem(
-    "character",
-    select.value
-  );
-}
-</script>
-
-<script>
-function sendMessage(){
-
-    const input =
-        document.getElementById("input");
-
-    const chatBox =
-        document.getElementById("chat");
-
-    const text = input.value.trim();
-
-    if(!text) return;
-
-    const userMsg =
-        document.createElement("div");
-
-    userMsg.className =
-        "message user";
-
-    userMsg.textContent = text;
-
-    chatBox.appendChild(userMsg);
-
-    const emotion = detectEmotion(text);
-
-const list = emotions[emotion];
-
-const reply = list[Math.floor(Math.random()*list.length)];
-
-const botMsg = document.createElement("div");
-botMsg.className = "message bot";
-botMsg.innerHTML =
-"🐱 " + reply +
-"<br>✨「" + text +
-"」マジで言ってんのか？🌸";<br>ふざけてんのか？🌸";
-
-        chatBox.appendChild(botMsg);
-
-        chatBox.scrollTop =
-            chatBox.scrollHeight;
-
-    setTimeout(() => {
-
-   ...
-
-},600);
-
-    input.value="";
-
-    chatBox.scrollTop =
-        chatBox.scrollHeight;
-}
-</script>
-
-document.getElementById("send")
-    .addEventListener("click", sendMessage);
-
-
-
-
 </body>
-
-
 </html>
