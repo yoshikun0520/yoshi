@@ -44,7 +44,7 @@ window.addEventListener("load", () => {
 
     if (chat.children.length === 0) {
 
-        addBot("オッス！よしくんだ！😺");
+        addBot("よぉ！何か用か😺？");
 
     }
 
@@ -219,23 +219,23 @@ if(game3) return game3;
 if(text.includes("疲れ")){
 
     if(lastTopic === "仕事"){
-        return "仕事で疲れたんだね。今日はゆっくり休もう😊";
+        return "仕事で疲れたんだね。じゃたんまり稼いだよな😊？";
     }
 
     if(lastTopic === "学校"){
-        return "学校お疲れさま！宿題は終わった？";
+        return "学校なんてバックれちまえ！カツアゲでもしに行くか？";
     }
 
     if(lastTopic === "ゲーム"){
-        return "ゲームのやりすぎかな？少し休憩もしよう😊";
+        return "チート使ってる？楽をする為に苦労してます😊";
     }
 
-    return "今日もお疲れさま！";
+    return "おっつー！";
  }
 
 if(text.includes("仕事")){
     lastTopic = "仕事";
-    return "お仕事だったんだ！お疲れさま😊";
+    return "お仕事だったんだ！お疲れさま！で今日のアガリは😊？";
 }
 if(text.includes("学校")){
     lastTopic = "学校";
@@ -246,43 +246,43 @@ if(text.includes("ゲーム")){
     return "ゲーム好きなんだね！何を遊んでるの？";
 }
 if(text.includes("疲れ")){
-    return "今日も頑張ったね😊 無理しすぎないで、ゆっくり休もう！";
+    return "は？何言ってんの😊？ 身体が動かなくなるまで耐えろや！";
 }
 if(text.includes("ありがとう")){
     return "どういたしまして！また何でも聞いてね😊";
 }
 
 if(text.includes("悲しい")){
-    return "つらかったね…。話せる範囲で聞かせてくれたら、一緒に考えるよ。";
+    return "マジ笑える…。根性ねぇ奴はいらねぇから消えろや。";
 }
 
 if(text.includes("嬉しい")){
-    return "それは良かったね！😊 自分も嬉しいよ！";
+    return "あっそ！😊 自分だけ嬉しくて満足か？";
 }
     if(text.includes("こんにちは"))
-        return "こんにちは！今日は何を話そうか？";
+        return "どーも！今日は何から話すべか？";
 
     if(text.includes("ありがとう"))
-        return "どういたしまして！";
+        return "はいよー！ちゃんと礼持って来いよ？";
 
     if(text.includes("疲れ"))
-        return "お疲れさま！無理しすぎないでね。";
+        return "何だせぇ事ぬかしてんだよ！ガタくれる前に動けや。";
 
     if(text.includes("好き"))
-        return "そうなんだ！その話もっと聞かせて！";
+        return "ふーん。そうなんだ！その話それ以上したら殴っていいか？";
   
 function detectMood(text){
 
     if(text.match(/疲れ|眠い|しんどい|つらい|自殺/))
         return "tired";
 
-    if(text.match(/嬉しい|楽しい|最高|やった|うれしい/))
+    if(text.match(/嬉しい|楽しい|最高|やった|うれしい|うぇーい/))
         return "happy";
 
     if(text.match(/悲しい|泣きたい|落ち込|死にたい/))
         return "sad";
 
-    if(text.match(/怒|ムカつく|殺す|/))
+    if(text.match(/怒|ムカつく|殺す|イラつく/))
         return "angry";
 
     return "normal";
@@ -294,15 +294,15 @@ if(mood==="tired"){
 }
 
 if(mood==="sad"){
-    return "つらかったね…。話したいことがあれば聞くよ。";
+    return "つらかったね…。何て言うと思ったか？考えが甘いんだよ。";
 }
 
 if(mood==="happy"){
-    return "それは良かったね！😊 自分まで嬉しくなるよ！";
+    return "それは良かったね！😊 自慢して楽しいか？";
 }
 
 if(mood==="angry"){
-    return "何か嫌なことがあったのかな？落ち着いて話してみよう。";
+    return "何かムカつく事があったのか？ケツ取りに行くべや。";
 }
         "なるほど！",
 
