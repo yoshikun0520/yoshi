@@ -1,6 +1,7 @@
 "use strict";
 
 /* ========= 要素取得 ========= */
+let lastTopic = "";
 const hands=["グー","チョキ","パー"];
 let answer=Math.floor(Math.random()*10)+1;
 const slot=["🍒","🍋","🍇","⭐","💎","7️⃣"];
@@ -168,22 +169,164 @@ function sendMessage(){
 
 function getReply(text){
 
+    const game1 = playJanken(text);
+    if(game1) return game1;
+
+    const game2 = playNumber(text);
+    if(game2) return game2;
+
+    const game3 = playSlot(text);
+    if(game3) return game3;
+
     if(typeof knowledge !== "undefined"){
-
         for(const key in knowledge){
-
             if(text.includes(key)){
-
                 const list = knowledge[key];
-
                 return list[Math.floor(Math.random()*list.length)];
-
             }
-
         }
-
     }
 
+    if(text.includes("疲れ")){
+
+    switch(memory.topic){
+
+        case "仕事":
+            return "仕事で疲れたんだね。本当にお疲れさま😊";
+
+        case "学校":
+            return "学校お疲れさま！今日は授業どうだった？";
+
+        case "ゲーム":
+            return "ゲームで疲れたのかな？少し休憩しよう😊";
+
+        default:
+            return "今日もお疲れさま！";
+    }
+
+}
+
+    if(text.includes("こんにちは"))
+        return "こんにちは！今日は何を話そうか？";
+
+    if(text.includes("ありがとう")){
+    return "どういたしまして！また何でも聞いてね😊";
+}
+
+if(text.includes("悲しい")){
+    return "つらかったね…。話せる範囲で聞かせてくれたら、一緒に考えるよ。";
+}
+
+if(text.includes("嬉しい")){
+    return "それは良かったね！😊 自分も嬉しいよ！";
+}
+
+    if(text.includes("疲れ"))
+        return "お疲れさま！無理しすぎないでね。";
+
+    if(text.includes("好き"))
+        return "そうなんだ！その話もっと聞かせて！";
+    
+    if(text.includes("仕事")){
+    lastTopic = "仕事";
+    return "お仕事だったんだ！お疲れさま😊";
+}
+
+    if(text.includes("ゲーム")){
+    lastTopic = "ゲーム";
+    return "ゲーム好きなんだね！何を遊んでるの？";
+}
+
+    if(text.includes("学校")){
+    lastTopic = "学校";
+    return "学校だったんだ！今日はどうだった？";
+}
+
+    if(text.includes("疲れ")){
+
+    if(lastTopic === "仕事"){
+        return "仕事で疲れたんだね。今日はゆっくり休もう😊";
+    }
+
+    if(lastTopic === "学校"){
+        return "学校お疲れさま！宿題は終わった？";
+    }
+
+    if(lastTopic === "ゲーム"){
+        return "ゲームのやりすぎかな？少し休憩もしよう😊";
+    }
+
+    return "今日もお疲れさま！";
+}
+    return random[Math.floor(Math.random()*random.length)];
+}
+
+const history = [];
+
+function remember(text){
+    history.push(text);
+
+    if(history.length > 5){
+        history.shift();
+    }
+}
+
+const memory = {
+    topic: "",
+    mood: "normal",
+    lastQuestion: "",
+    history: []
+};
+
+function remember(text){
+
+    memory.history.push(text);
+
+    if(memory.history.length > 10){
+        memory.history.shift();
+    }
+
+    if(text.includes("仕事")) memory.topic = "仕事";
+    if(text.includes("学校")) memory.topic = "学校";
+    if(text.includes("ゲーム")) memory.topic = "ゲーム";
+    if(text.includes("勉強")) memory.topic = "勉強";
+    if(text.includes("恋")) memory.topic = "恋愛";
+}
+
+function detectMood(text){
+
+    if(text.match(/疲れ|眠い|しんどい|つらい/))
+        return "tired";
+
+    if(text.match(/嬉しい|楽しい|最高|やった/))
+        return "happy";
+
+    if(text.match(/悲しい|泣きたい|落ち込/))
+        return "sad";
+
+    if(text.match(/怒|ムカつく/))
+        return "angry";
+
+    return "normal";
+}
+
+const mood = detectMood(text);
+
+if(mood==="tired"){
+    return "今日は頑張ったんだね😊 無理しすぎず、ゆっくり休もう。";
+}
+
+if(mood==="sad"){
+    return "つらかったね…。話したいことがあれば聞くよ。";
+}
+
+if(mood==="happy"){
+    return "それは良かったね！😊 自分まで嬉しくなるよ！";
+}
+
+if(mood==="angry"){
+    return "何か嫌なことがあったのかな？落ち着いて話してみよう。";
+}
 　　const game1=playJanken(text);
 
 if(game1) return game1;
