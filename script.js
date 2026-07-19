@@ -239,7 +239,7 @@ if(text.includes("嬉しい")){
 
     return "今日もお疲れさま！";
 }
-    return random[Math.floor(Math.random()*random.length)];
+    
 }
 
 const history = [];
