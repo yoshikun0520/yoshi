@@ -365,7 +365,7 @@ if(mood==="angry"){
 
     ];
 
-    return random[Math.floor(Math.random()*random.length)];
+    return list[Math.floor(Math.random()*list.length)];
 
 }
 
