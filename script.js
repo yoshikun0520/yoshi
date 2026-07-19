@@ -167,25 +167,6 @@ function sendMessage(){
 
 /* ========= AI返答 ========= */
 
-function getReply(text){
-
-    const game1 = playJanken(text);
-    if(game1) return game1;
-
-    const game2 = playNumber(text);
-    if(game2) return game2;
-
-    const game3 = playSlot(text);
-    if(game3) return game3;
-
-    if(typeof knowledge !== "undefined"){
-        for(const key in knowledge){
-            if(text.includes(key)){
-                const list = knowledge[key];
-                return list[Math.floor(Math.random()*list.length)];
-            }
-        }
-    }
 
     if(text.includes("疲れ")){
 
@@ -327,18 +308,26 @@ if(mood==="happy"){
 if(mood==="angry"){
     return "何か嫌なことがあったのかな？落ち着いて話してみよう。";
 }
-　　const game1=playJanken(text);
+　　function getReply(text){
 
-if(game1) return game1;
+    const game1 = playJanken(text);
+    if(game1) return game1;
 
-const game2=playNumber(text);
+    const game2 = playNumber(text);
+    if(game2) return game2;
 
-if(game2) return game2;
+    const game3 = playSlot(text);
+    if(game3) return game3;
 
-const game3=playSlot(text);
+    if(typeof knowledge !== "undefined"){
+        for(const key in knowledge){
+            if(text.includes(key)){
+                const list = knowledge[key];
+                return list[Math.floor(Math.random()*list.length)];
+            }
+        }
+    }
 
-if(game3) return game3;
-    const random = [
 
         "なるほど！",
 
